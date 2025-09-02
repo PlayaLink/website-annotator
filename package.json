@@ -47,10 +47,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/website-annotation-tool.git"
+    "url": "git+https://github.com/PlayaLink/website-annotator.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/website-annotation-tool/issues"
+    "url": "https://github.com/PlayaLink/website-annotator/issues"
   },
-  "homepage": "https://github.com/yourusername/website-annotation-tool#readme"
+  "homepage": "https://github.com/PlayaLink/website-annotator#readme"
 }
