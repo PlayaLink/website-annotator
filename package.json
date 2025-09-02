@@ -1,4 +1,5 @@
 {
+  "name": "website-annotation-tool",
   "type": "module",
   "version": "1.0.0",
   "description": "A React component for adding annotations to web pages, similar to Figma's annotation feature",
