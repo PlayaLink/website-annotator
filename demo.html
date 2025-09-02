@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Annotation Tool Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .demo-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .demo-section:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: 1px solid #007AFF;
+            background: #007AFF;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056CC;
+        }
+        .annotation-list {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+        .annotation-item {
+            margin: 5px 0;
+            padding: 8px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Website Annotation Tool Demo</h1>
+    <p>This is a demo of the website annotation tool. Click the "Annotate" button in the bottom-left corner to start adding annotations to this page.</p>
+    
+    <div class="demo-section">
+        <h2>Sample Content Section</h2>
+        <p>You can annotate any element on this page. Try hovering over different elements when annotation mode is active.</p>
+        <button>Sample Button 1</button>
+        <button>Sample Button 2</button>
+    </div>
+
+    <div class="demo-section">
+        <h3>Another Section</h3>
+        <p>This section has a different background color. You can annotate any part of it.</p>
+        <ul>
+            <li>List item 1</li>
+            <li>List item 2</li>
+            <li>List item 3</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h4>Form Elements</h4>
+        <input type="text" placeholder="Sample input field" style="padding: 8px; margin: 5px;">
+        <select style="padding: 8px; margin: 5px;">
+            <option>Option 1</option>
+            <option>Option 2</option>
+        </select>
+    </div>
+
+    <div id="annotation-list" class="annotation-list">
+        <h4>Current Annotations: <span id="annotation-count">0</span></h4>
+        <div id="annotations-container"></div>
+    </div>
+
+    <div id="root"></div>
+
+    <!-- Load React -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Load JSX Runtime -->
+    <script>
+        window.jsxRuntime = {
+            jsx: React.createElement,
+            jsxs: React.createElement,
+            Fragment: React.Fragment
+        };
+    </script>
+    
+    <!-- Load the annotation tool -->
+    <script src="dist/index.umd.js"></script>
+    
+    <!-- Load the CSS -->
+    <link rel="stylesheet" href="src/styles.css">
+    
+    <script>
+        const { WebsiteAnnotationTool } = window.WebsiteAnnotationTool;
+        const { createRoot } = ReactDOM;
+        
+        function DemoApp() {
+            const [annotations, setAnnotations] = React.useState([]);
+
+            const handleAnnotationAdd = (annotation) => {
+                console.log('New annotation added:', annotation);
+                setAnnotations(prev => [...prev, annotation]);
+            };
+
+            const handleAnnotationRemove = (annotationId) => {
+                console.log('Annotation removed:', annotationId);
+                setAnnotations(prev => prev.filter(ann => ann.id !== annotationId));
+            };
+
+            // Update the annotation count display
+            React.useEffect(() => {
+                document.getElementById('annotation-count').textContent = annotations.length;
+                const container = document.getElementById('annotations-container');
+                container.innerHTML = annotations.map(ann => 
+                    `<div class="annotation-item">
+                        <strong>Element:</strong> ${ann.elementId} | <strong>Text:</strong> ${ann.text}
+                    </div>`
+                ).join('');
+            }, [annotations]);
+
+            return React.createElement(WebsiteAnnotationTool, {
+                annotations: annotations,
+                onAnnotationAdd: handleAnnotationAdd,
+                onAnnotationRemove: handleAnnotationRemove
+            });
+        }
+
+        // Use React 18 createRoot API
+        const container = document.getElementById('root');
+        const root = createRoot(container);
+        root.render(React.createElement(DemoApp));
+    </script>
+</body>
+</html>
