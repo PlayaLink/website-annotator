@@ -1,7 +1,7 @@
 {
   "name": "website-annotation-tool",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A React component for adding annotations to web pages, similar to Figma's annotation feature",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
